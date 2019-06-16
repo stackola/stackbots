@@ -1,0 +1,53 @@
+@import "../../less/variables.less";
+
+.BotData {
+  width: 100px;
+  position: sticky;
+  top: 0;
+  .row {
+    min-height: 0;
+    background: #444;
+    display: flex;
+    margin-left: 2px;
+    margin-bottom: 4px;
+    &.noFlex {
+      display: block;
+      margin-bottom: 0;
+    }
+    .key {
+      padding: 4px;
+      text-align: center;
+      font-weight: bold;
+      background: #222;
+    }
+    .value {
+      padding: 4px;
+      flex: 1;
+      text-align: right;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .stack {
+      max-height: 124px;
+      min-height: 124px;
+      height: 124px;
+      overflow-y: auto;
+    }
+  }
+}
+
+.stack::-webkit-scrollbar-track {
+  background-color: #444;
+}
+
+.stack::-webkit-scrollbar {
+  width: 6px;
+  background-color: #444;
+}
+
+.stack::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: @background;
+}

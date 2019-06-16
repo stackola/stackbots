@@ -6,10 +6,7 @@ import style from "./BotList.less";
 import BotDisplay from "../BotDisplay/BotDisplay";
 import Spacer from "../Spacer/Spacer";
 
-@connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+import debounceRender from "react-debounce-render";
 class BotList extends React.Component {
   render() {
     return (
@@ -24,7 +21,13 @@ class BotList extends React.Component {
         <Spacer h={12} />
         {Object.values(this.props.bots.bots).map(b => {
           return (
-            <BotDisplay key={b.id} updateBot={this.props.updateBot} bot={b} />
+            <BotDisplay
+              key={b.id}
+              updateBot={this.props.updateBot}
+              bot={b}
+              ticks={b.ticks}
+              i={b.i}
+            />
           );
         })}
       </div>
@@ -42,4 +45,9 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default BotList;
+let DBotList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(debounceRender(BotList, 1000 / 60, { leading: true, maxWait: 1000 / 8 }));
+
+export default DBotList;

@@ -21,15 +21,40 @@ class AppContainer extends Component {
   }
   componentDidMount() {
     this.props.addBot();
-    this.props.addBot();
-    this.props.runTick();
   }
-
+  doTick() {
+    clearInterval(this.int);
+    this.int = setInterval(() => {
+      this.props.runTick();
+    }, 10);
+  }
   render() {
     return (
       <div styleName={"main"}>
         <BotList />
-        <div style={{ flex: 1 }}>hi</div>{" "}
+        <div style={{ flex: 1 }}>
+          <button
+            onClick={() => {
+              this.props.runTick();
+            }}
+          >
+            Run tick
+          </button>
+          <button
+            onClick={() => {
+              this.doTick();
+            }}
+          >
+            Run ticks
+          </button>
+          <button
+            onClick={() => {
+              this.props.resetBots();
+            }}
+          >
+            Reset
+          </button>
+        </div>
       </div>
     );
   }

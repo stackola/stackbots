@@ -23,8 +23,15 @@ export function updateBot(id, values) {
   };
 }
 
-export function runTick() {
+export function runTick(cb) {
   return {
-    type: types.RUN_TICK
+    type: types.RUN_TICK,
+    payload: cb
+  };
+}
+
+export function resetBots() {
+  return {
+    type: types.RESET_BOTS
   };
 }

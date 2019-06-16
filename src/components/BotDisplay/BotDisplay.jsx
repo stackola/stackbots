@@ -2,10 +2,11 @@ import React from "react";
 import style from "./BotDisplay.less";
 import Spacer from "../Spacer/Spacer";
 import TextareaAutosize from "react-autosize-textarea";
-export default class BotDisplay extends React.Component {
+import BotData from "../BotData/BotData";
+export default class BotDisplay extends React.PureComponent {
   render() {
     let bot = this.props.bot;
-    let instruction = bot.i - 1;
+    let instruction = bot.i;
 
     //console.log(lines);
     let lines = bot.codeArray.map((l, i) => {
@@ -23,10 +24,14 @@ export default class BotDisplay extends React.Component {
         </div>
       );
     });
+
     return (
       <div styleName="BotDisplay">
-        <div styleName="title">Bot #{bot.id}</div>
+        <div styleName="title">
+          Bot #{bot.id} ({this.props.ticks})
+        </div>
         <Spacer h={4} />
+
         <div styleName="codeWrap">
           <div styleName="lineNums">{lines}</div>
           <TextareaAutosize
@@ -40,7 +45,9 @@ export default class BotDisplay extends React.Component {
             styleName="code"
             value={bot.code}
           />
+          <BotData bot={bot} />
         </div>
+        {bot.isDead && <div styleName="deathMsg">{bot.deathMessage}</div>}
       </div>
     );
   }
@@ -65,11 +72,16 @@ function validateLine(line) {
   if (line.startsWith(";")) {
     return true;
   }
-  if (line == "NOOP") {
-    return true;
+  line = line.split(";")[0].trim();
+  let cmdArray = line.split(" ");
+
+  if (cmdArray[0] == "NOOP" || cmdArray[0] == "DUPL") {
+    return cmdArray.length == 1;
   }
 
-  let cmdArray = line.split(" ");
+  if (cmdArray[0] == "REPL") {
+    return cmdArray.length == 2;
+  }
 
   if (
     cmdArray[0] == "ROT" ||
@@ -77,9 +89,11 @@ function validateLine(line) {
     cmdArray[0] == "AJMP" ||
     cmdArray[0] == "SUBM" ||
     cmdArray[0] == "WALK" ||
-    cmdArray[0] == "WAIT" ||
-    cmdArray[0] == "REPL"
+    cmdArray[0] == "WAIT"
   ) {
+    if (cmdArray.length == 1) {
+      return true;
+    }
     if (cmdArray.length !== 2) {
       return false;
     }
