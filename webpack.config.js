@@ -25,11 +25,7 @@ module.exports = env => {
   });
 
   const cleanPlugin = new CleanWebpackPlugin({
-    cleanOnceBeforeBuildPatterns: [
-      "docs/index.html",
-      "docs/css",
-      "docs/js"
-    ],
+    cleanOnceBeforeBuildPatterns: ["docs/index.html", "docs/css", "docs/js"],
     root: __dirname,
     dry: env.NODE_ENV === "local" // Don't delete local files when serving through WDS
   });
@@ -89,7 +85,7 @@ module.exports = env => {
     },
     output: {
       path: __dirname + "/docs/",
-      publicPath: "/stackbots/",
+      publicPath: env.NODE_ENV === "local"?"/":"/stackbots/",
       filename: "js/main-[hash].js"
     }
   };

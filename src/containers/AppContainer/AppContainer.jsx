@@ -26,7 +26,7 @@ class AppContainer extends Component {
     clearInterval(this.int);
     this.int = setInterval(() => {
       this.props.runTick();
-    }, 10);
+    }, 333);
   }
   render() {
     return (
