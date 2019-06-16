@@ -12,14 +12,19 @@
     margin: 0;
     padding: 0;
     flex: 1;
+    background: @background;
+    min-height: 0;
+    color: @font;
   }
   #app {
+    min-height: 0;
     display: flex;
     flex: 1;
     flex-direction: column;
   }
 }
 .main {
-  background: @background;
   flex: 1;
+  display: flex;
+  min-height: 0;
 }

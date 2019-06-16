@@ -1,0 +1,24 @@
+@import "../../less/variables.less";
+
+.BotList {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.BotList::-webkit-scrollbar-track {
+  background-color: @background;
+}
+
+.BotList::-webkit-scrollbar {
+  width: 12px;
+  background-color: @background;
+}
+
+.BotList::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555;
+}
