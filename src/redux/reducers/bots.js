@@ -7,15 +7,10 @@ let defaultBot = {
   isValid: true,
   deathMessage: "",
   isDead: false,
-  recving: false,
-  sending: false,
-  toIp: null,
   x: "a",
   temp: false,
   ticks: 0,
-  i: 0,
-  sendData: {},
-  recvData: {}
+  i: 0
 };
 //Define name and default value
 export const bots = createReducer(
@@ -30,7 +25,7 @@ export const bots = createReducer(
         if (b.temp) {
           delete newState.bots[b.id];
         } else {
-          newState.bots[b.id] = { ...b, ...defaultBot, stack: [] };
+          newState.bots[b.id] = { ...b, ...defaultBot, stack: [], packets: [] };
         }
       });
 
@@ -48,7 +43,8 @@ export const bots = createReducer(
             id: nextId,
             stack: [],
             code: "",
-            codeArray: []
+            codeArray: [],
+            packets: []
           }
         }
       };
@@ -221,9 +217,28 @@ export const bots = createReducer(
             x: bot.x,
             i: l.line,
             code: bot.code,
+            packets: [],
             temp: true,
             codeArray: bot.codeArray.slice()
           };
+          bot.stack.push(nextId);
+          bot.i++;
+        }
+
+        if (c == "FLIP") {
+          if (bot.stack.length < 2) {
+            bot.i++;
+            ret.bots[bot.id] = {
+              ...bot,
+              isDead: true,
+              deathMessage: "Stack too short to flip."
+            };
+            continue;
+          }
+          let a = bot.stack.pop();
+          let b = bot.stack.pop();
+          bot.stack.push(a);
+          bot.stack.push(b);
           bot.i++;
         }
 
@@ -250,6 +265,15 @@ export const bots = createReducer(
           let a = bot.stack.pop();
           if (cmdArray[1] && cmdArray[1] == "X") {
             bot.x = a;
+          }
+          bot.i++;
+        }
+
+        if (c == "IP") {
+          if (cmdArray[1] && cmdArray[1] == "X") {
+            bot.x = bot.id;
+          } else {
+            bot.stack.push(bot.id);
           }
           bot.i++;
         }
@@ -458,6 +482,7 @@ function isNumeric(val) {
 /*
 Instructions:
 
+IP
 //test EXPRESSION
 //subm num/x/pop
 ?//send data=num/x/pop ip=num/x/pop
@@ -471,6 +496,9 @@ pop>pop
 pop=pop
 x|pop
 
+
+
+##//flip
 ##//noop
 ##//mark NAME
 
@@ -478,10 +506,10 @@ x|pop
 #//rjmp num/x/pop
 #//ajmp num/x/pop
 
-##//addi x/push
-##//subi x/push
-##//muli x/push
-##//divi x/push
+##//addi 
+##//subi 
+##//muli 
+##//divi 
 
 ##//jump mark
 ##//tjmp mark

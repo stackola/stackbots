@@ -75,7 +75,7 @@ function validateLine(line) {
   line = line.split(";")[0].trim();
   let cmdArray = line.split(" ");
 
-  if (cmdArray[0] == "NOOP" || cmdArray[0] == "DUPL") {
+  if (cmdArray[0] == "NOOP" || cmdArray[0] == "DUPL" || cmdArray[0]=="FLIP") {
     return cmdArray.length == 1;
   }
 
@@ -111,7 +111,7 @@ function validateLine(line) {
     }
   }
 
-  if (cmdArray[0] == "POP") {
+  if (cmdArray[0] == "POP" || cmdArray[0]=="IP") {
     if (cmdArray.length == 1) {
       return true;
     }

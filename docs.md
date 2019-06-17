@@ -53,7 +53,8 @@ Jump to a mark.
 This kills the exa if the mark is not found.
 
 REPL [NAME]
-Replicate the current exa. The new exa will have a copy of the stack, and X, but will have a new sequential IP.
+Replicate the current exa, and push it's IP to the stack of the original EXA.
+The new exa will have a copy of the stack, and X, but will have a new sequential IP. Network-packets are not copied over.
 This kills the exa if the mark is not found.
 
 
@@ -84,6 +85,13 @@ AJMP 1 jumps to line 1
 AJMP 4 jumps to line 4
 You can not jump past the end of the programm. AJMP -9999 will put you at the top of your code.
 
+
+FLIP
+Make the top two stack items switch position.
+This kills the exa if there's not at least 2 elements on the stack.
+
+IP / IP X
+Copy the current EXAs IP to the stack, or to the X register.
 
 Behaviour:
 Each cycle, EXAs are evaluated from lowest to highest ID.
