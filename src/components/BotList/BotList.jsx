@@ -8,16 +8,45 @@ import Spacer from "../Spacer/Spacer";
 
 import debounceRender from "react-debounce-render";
 class BotList extends React.Component {
+  doTick() {
+    clearInterval(this.int);
+    this.int = setInterval(() => {
+      this.props.runTick();
+    }, 1000 / 10);
+  }
   render() {
     return (
       <div styleName="BotList">
-        <div
+        <button
+          onClick={() => {
+            clearInterval(this.int);
+            this.props.runTick();
+          }}
+        >
+          Run tick / Pause
+        </button>
+        <button
+          onClick={() => {
+            this.doTick();
+          }}
+        >
+          Run ticks
+        </button>
+        <button
+          onClick={() => {
+            clearInterval(this.int);
+            this.props.resetBots();
+          }}
+        >
+          Reset
+        </button>
+        <button
           onClick={() => {
             this.props.addBot();
           }}
         >
           Add new bot
-        </div>
+        </button>
         <Spacer h={12} />
         {Object.values(this.props.bots.bots).map(b => {
           return (

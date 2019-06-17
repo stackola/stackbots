@@ -8,6 +8,23 @@ import style from "./AppContainer.less";
 
 import { Route, Link, withRouter, Switch, Redirect } from "react-router-dom";
 import BotList from "../../components/BotList/BotList";
+import { codeToLines } from "../../components/BotDisplay/BotDisplay";
+
+const defaultCode = `;FIBONACCI
+PUSH 0
+DUPL
+POP X
+PUSH 1
+
+MARK LOOP
+DUPL
+PUSH X
+ADDI
+FLIP
+DUPL
+POP X
+FLIP
+JUMP LOOP`;
 
 @withRouter
 @connect(
@@ -20,41 +37,16 @@ class AppContainer extends Component {
     this.state = {};
   }
   componentDidMount() {
-    this.props.addBot();
+    this.props.addBot({
+      code: defaultCode,
+      codeArray: codeToLines(defaultCode)
+    });
   }
-  doTick() {
-    clearInterval(this.int);
-    this.int = setInterval(() => {
-      this.props.runTick();
-    }, 333);
-  }
+
   render() {
     return (
       <div styleName={"main"}>
         <BotList />
-        <div style={{ flex: 1 }}>
-          <button
-            onClick={() => {
-              this.props.runTick();
-            }}
-          >
-            Run tick
-          </button>
-          <button
-            onClick={() => {
-              this.doTick();
-            }}
-          >
-            Run ticks
-          </button>
-          <button
-            onClick={() => {
-              this.props.resetBots();
-            }}
-          >
-            Reset
-          </button>
-        </div>
       </div>
     );
   }

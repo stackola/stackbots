@@ -39,11 +39,11 @@ export const bots = createReducer(
           ...state.bots,
           [nextId]: {
             ...defaultBot,
+            code: "",
+            codeArray: [],
             ...action.payload,
             id: nextId,
             stack: [],
-            code: "",
-            codeArray: [],
             packets: []
           }
         }

@@ -53,7 +53,7 @@ export default class BotDisplay extends React.PureComponent {
   }
 }
 
-function codeToLines(code) {
+export function codeToLines(code) {
   let ei = 0;
   return code.split("\n").map((l, i) => {
     l = l.trim().toUpperCase();
@@ -75,7 +75,7 @@ function validateLine(line) {
   line = line.split(";")[0].trim();
   let cmdArray = line.split(" ");
 
-  if (cmdArray[0] == "NOOP" || cmdArray[0] == "DUPL" || cmdArray[0]=="FLIP") {
+  if (cmdArray[0] == "NOOP" || cmdArray[0] == "DUPL" || cmdArray[0] == "FLIP") {
     return cmdArray.length == 1;
   }
 
@@ -111,7 +111,7 @@ function validateLine(line) {
     }
   }
 
-  if (cmdArray[0] == "POP" || cmdArray[0]=="IP") {
+  if (cmdArray[0] == "POP" || cmdArray[0] == "IP") {
     if (cmdArray.length == 1) {
       return true;
     }
