@@ -7,7 +7,7 @@ let defaultBot = {
   isValid: true,
   deathMessage: "",
   isDead: false,
-  x: "a",
+  x: 0,
   temp: false,
   ticks: 0,
   i: 0
