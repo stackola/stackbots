@@ -16,10 +16,10 @@ export function addBot(bot) {
   };
 }
 
-export function updateBot(id, values) {
+export function updateBot(id, code) {
   return {
     type: types.UPDATE_BOT,
-    payload: { id, values }
+    payload: { id, code }
   };
 }
 

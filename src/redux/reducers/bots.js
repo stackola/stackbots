@@ -3,6 +3,8 @@ import createReducer from "../lib/createReducer";
 import * as types from "../actions/types";
 import { combineReducers } from "redux";
 
+import * as World from "../../../standalone/world";
+
 let defaultBot = {
   isValid: true,
   deathMessage: "",
@@ -12,58 +14,52 @@ let defaultBot = {
   ticks: 0,
   i: 0
 };
-//Define name and default value
+let defaultCode = `MARK TEST
+PUSH 12
+PUSH 24
+PUSH X`;
+const GlobWorld = new World({ code: defaultCode });
 export const bots = createReducer(
-  { bots: {} },
+  {
+    world: GlobWorld.toJSON(),
+    bots: GlobWorld.bots.map(b => b.toJSON())
+  },
   {
     [types.SET_BOTS](state, action) {
-      return { ...state, bots: action.payload };
+      return state;
     },
     [types.RESET_BOTS](state, action) {
-      let newState = { ...state };
-      Object.values(newState.bots).map(b => {
-        if (b.temp) {
-          delete newState.bots[b.id];
-        } else {
-          newState.bots[b.id] = { ...b, ...defaultBot, stack: [], packets: [] };
-        }
-      });
-
-      return newState;
+      GlobWorld.reset();
+      return {
+        world: GlobWorld.toJSON(),
+        bots: GlobWorld.bots.map(b => b.toJSON())
+      };
+      return state;
     },
     [types.ADD_BOT](state, action) {
-      let nextId = getNextId(state.bots);
+      GlobWorld.addBot();
       return {
-        ...state,
-        bots: {
-          ...state.bots,
-          [nextId]: {
-            ...defaultBot,
-            code: "",
-            codeArray: [],
-            ...action.payload,
-            id: nextId,
-            stack: [],
-            packets: []
-          }
-        }
+        world: GlobWorld.toJSON(),
+        bots: GlobWorld.bots.map(b => b.toJSON())
       };
     },
     [types.UPDATE_BOT](state, action) {
+      GlobWorld.updateCode(action.payload.id, action.payload.code);
       return {
-        ...state,
-        bots: {
-          ...state.bots,
-          [action.payload.id]: {
-            ...(state.bots[action.payload.id] || {}),
-            ...action.payload.values
-          }
-        }
+        world: GlobWorld.toJSON(),
+        bots: GlobWorld.bots.map(b => b.toJSON())
       };
     },
     [types.RUN_TICK](state, action) {
+      GlobWorld.runTick();
+      return {
+        world: GlobWorld.toJSON(),
+        bots: GlobWorld.bots.map(b => b.toJSON())
+      };
+      /*
       //console.time("tick")
       //for each bot, ordered by id(?) , run next instruction.
+      
       let ret = { ...state };
       let bots = Object.values(state.bots)
         .filter(b => !b.isDead)
@@ -454,6 +450,7 @@ export const bots = createReducer(
 
       //console.timeEnd("tick")
       return ret;
+      */
     }
   }
 );

@@ -37,10 +37,7 @@ class AppContainer extends Component {
     this.state = {};
   }
   componentDidMount() {
-    this.props.addBot({
-      code: defaultCode,
-      codeArray: codeToLines(defaultCode)
-    });
+    this.props.setBots();
   }
 
   render() {
