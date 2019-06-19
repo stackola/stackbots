@@ -1,10 +1,10 @@
 LINK [TOP|POP|X|NUM] default pop
 
 #TEST [expression] : X | POP | NUM | TOP
-TLT EXP EXP default pop pop
-TGT EXP EXP default pop pop
-TEQ EXP EXP default pop pop
-TNE EXP EXP default pop pop
+*TLT EXP EXP default pop pop
+*TGT EXP EXP default pop pop
+*TEQ EXP EXP default pop pop
+*TNE EXP EXP default pop pop
 
 *POP
 *POP X
@@ -30,7 +30,7 @@ ROT [TOP|POP|X|NUM] default pop
 *MULI
 *SUBI
 *DIVI
-\*MODI
+*MODI
 
 REPL [label]
 

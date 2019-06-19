@@ -119,9 +119,150 @@ let instructions = {
       }
     ],
     mutator: ({ bot, args, world }) => {
-      //just for highligh. gets replaced.
+      //default:
+      if (!args[0]) {
+        args[0] = "POP";
+        args[1] = "POP";
+      }
+      let a = null;
+      let b = null;
+      //Get first item:
+      getVal1: {
+        if (args[0] == "X") {
+          a = bot.x;
+          break getVal1;
+        }
+        if (isNumeric(args[0])) {
+          //Get from int
+          a = parseInt(args[0]);
+          break getVal1;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[0] == "POP") {
+          //Get from POP
+          a = bot.stack.pop();
+          break getVal1;
+        }
+        if (args[0] == "TOP") {
+          //Get from x
+          a = bot.stack[bot.stack.length - 1];
+          break getVal1;
+        }
+      }
+
+      getVal2: {
+        if (args[1] == "X") {
+          b = bot.x;
+          break getVal2;
+        }
+        if (isNumeric(args[1])) {
+          //Get from int
+          b = parseInt(args[1]);
+          break getVal2;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[1] == "POP") {
+          //Get from POP
+          b = bot.stack.pop();
+          break getVal2;
+        }
+        if (args[1] == "TOP") {
+          //Get from x
+          b = bot.stack[bot.stack.length - 1];
+          break getVal2;
+        }
+      }
+      console.log("doin.");
+      console.log(args[0], args[1]);
+      console.log(a, b);
+      bot.stack.push(a == b ? 1 : 0);
+      bot.i++;
     }
   },
+
+  TNE: {
+    cmd: "TNE",
+    argNums: [0, 2],
+    args: [
+      {
+        optional: true,
+        match: [argTypes.X, argTypes.TOP, argTypes.POP, argTypes.NUM]
+      },
+      {
+        optional: true,
+        match: [argTypes.X, argTypes.TOP, argTypes.POP, argTypes.NUM]
+      }
+    ],
+    mutator: ({ bot, args, world }) => {
+      //default:
+      if (!args[0]) {
+        args[0] = "POP";
+        args[1] = "POP";
+      }
+      let a = null;
+      let b = null;
+      //Get first item:
+      getVal1: {
+        if (args[0] == "X") {
+          a = bot.x;
+          break getVal1;
+        }
+        if (isNumeric(args[0])) {
+          //Get from int
+          a = parseInt(args[0]);
+          break getVal1;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[0] == "POP") {
+          //Get from POP
+          a = bot.stack.pop();
+          break getVal1;
+        }
+        if (args[0] == "TOP") {
+          //Get from x
+          a = bot.stack[bot.stack.length - 1];
+          break getVal1;
+        }
+      }
+
+      getVal2: {
+        if (args[1] == "X") {
+          b = bot.x;
+          break getVal2;
+        }
+        if (isNumeric(args[1])) {
+          //Get from int
+          b = parseInt(args[1]);
+          break getVal2;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[1] == "POP") {
+          //Get from POP
+          b = bot.stack.pop();
+          break getVal2;
+        }
+        if (args[1] == "TOP") {
+          //Get from x
+          b = bot.stack[bot.stack.length - 1];
+          break getVal2;
+        }
+      }
+      console.log("doin.");
+      console.log(args[0], args[1]);
+      console.log(a, b);
+      bot.stack.push(a == b ? 0 : 1);
+      bot.i++;
+    }
+  },
+
   TLT: {
     cmd: "TLT",
     argNums: [0, 2],
@@ -136,7 +277,147 @@ let instructions = {
       }
     ],
     mutator: ({ bot, args, world }) => {
-      //just for highligh. gets replaced.
+      //default:
+      if (!args[0]) {
+        args[0] = "POP";
+        args[1] = "POP";
+      }
+      let a = null;
+      let b = null;
+      //Get first item:
+      getVal1: {
+        if (args[0] == "X") {
+          a = bot.x;
+          break getVal1;
+        }
+        if (isNumeric(args[0])) {
+          //Get from int
+          a = parseInt(args[0]);
+          break getVal1;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[0] == "POP") {
+          //Get from POP
+          a = bot.stack.pop();
+          break getVal1;
+        }
+        if (args[0] == "TOP") {
+          //Get from x
+          a = bot.stack[bot.stack.length - 1];
+          break getVal1;
+        }
+      }
+
+      getVal2: {
+        if (args[1] == "X") {
+          b = bot.x;
+          break getVal2;
+        }
+        if (isNumeric(args[1])) {
+          //Get from int
+          b = parseInt(args[1]);
+          break getVal2;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[1] == "POP") {
+          //Get from POP
+          b = bot.stack.pop();
+          break getVal2;
+        }
+        if (args[1] == "TOP") {
+          //Get from x
+          b = bot.stack[bot.stack.length - 1];
+          break getVal2;
+        }
+      }
+      console.log("doin.");
+      console.log(args[0], args[1]);
+      console.log(a, b);
+      bot.stack.push(a < b ? 1 : 0);
+      bot.i++;
+    }
+  },
+
+  TGT: {
+    cmd: "TGT",
+    argNums: [0, 2],
+    args: [
+      {
+        optional: true,
+        match: [argTypes.X, argTypes.TOP, argTypes.POP, argTypes.NUM]
+      },
+      {
+        optional: true,
+        match: [argTypes.X, argTypes.TOP, argTypes.POP, argTypes.NUM]
+      }
+    ],
+    mutator: ({ bot, args, world }) => {
+      //default:
+      if (!args[0]) {
+        args[0] = "POP";
+        args[1] = "POP";
+      }
+      let a = null;
+      let b = null;
+      //Get first item:
+      getVal1: {
+        if (args[0] == "X") {
+          a = bot.x;
+          break getVal1;
+        }
+        if (isNumeric(args[0])) {
+          //Get from int
+          a = parseInt(args[0]);
+          break getVal1;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[0] == "POP") {
+          //Get from POP
+          a = bot.stack.pop();
+          break getVal1;
+        }
+        if (args[0] == "TOP") {
+          //Get from x
+          a = bot.stack[bot.stack.length - 1];
+          break getVal1;
+        }
+      }
+
+      getVal2: {
+        if (args[1] == "X") {
+          b = bot.x;
+          break getVal2;
+        }
+        if (isNumeric(args[1])) {
+          //Get from int
+          b = parseInt(args[1]);
+          break getVal2;
+        }
+        if (bot.stack.length == 0) {
+          return "Can not read from empty stack.";
+        }
+        if (args[1] == "POP") {
+          //Get from POP
+          b = bot.stack.pop();
+          break getVal2;
+        }
+        if (args[1] == "TOP") {
+          //Get from x
+          b = bot.stack[bot.stack.length - 1];
+          break getVal2;
+        }
+      }
+      console.log("doin.");
+      console.log(args[0], args[1]);
+      console.log(a, b);
+      bot.stack.push(a > b ? 1 : 0);
+      bot.i++;
     }
   },
   NOOP: {
