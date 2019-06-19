@@ -14,10 +14,21 @@ let defaultBot = {
   ticks: 0,
   i: 0
 };
-let defaultCode = `MARK TEST
-PUSH 12
-PUSH 24
-PUSH X`;
+let defaultCode = `;FIBONACCI
+PUSH 0
+DUPL
+POP X
+PUSH 1
+
+MARK LOOP
+DUPL
+PUSH X
+ADDI
+SWAP
+DUPL
+POP X
+SWAP
+JUMP LOOP`;
 const GlobWorld = new World({ code: defaultCode });
 export const bots = createReducer(
   {
