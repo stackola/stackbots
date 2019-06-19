@@ -7,3 +7,4 @@ export const ADD_BOT = "ADD_BOT";
 export const UPDATE_BOT = "UPDATE_BOT";
 export const RUN_TICK = "RUN_TICK";
 export const RESET_BOTS = "RESET_BOTS";
+export const RUN_10 = "RUN_10";

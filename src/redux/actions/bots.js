@@ -23,10 +23,16 @@ export function updateBot(id, code) {
   };
 }
 
-export function runTick(cb) {
+export function runTick() {
   return {
-    type: types.RUN_TICK,
-    payload: cb
+    type: types.RUN_TICK
+  };
+}
+
+export function run10(number = 10) {
+  return {
+    type: types.RUN_10,
+    payload: number
   };
 }
 

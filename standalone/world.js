@@ -7,9 +7,8 @@ class World {
   runTick() {
     let botCount = this.bots.length;
     for (var i = 0; i < botCount; i++) {
-      this.bots[i].runTick();
+      this.bots[i].runTick(this);
     }
-    console.log(this);
   }
   addBot(data) {
     this.bots.push(new CPU({ ...data, id: this.bots.length }));

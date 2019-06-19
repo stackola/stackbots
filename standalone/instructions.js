@@ -12,7 +12,7 @@ let argTypes = {
     return a == "POP";
   },
   EXP: a => {
-    console.log(a);
+    //console.log(a);
     return (
       a.includes("&gt;") ||
       a.includes("=") ||
@@ -21,7 +21,9 @@ let argTypes = {
     );
   },
   MARK: a => {
-    let letters = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
+    let letters = "abcdefghijklmnopqrstuvwxyz0123456789"
+      .toUpperCase()
+      .split("");
     return a
       .split("")
       .map(letter => letters.includes(letter))
@@ -176,9 +178,9 @@ let instructions = {
           break getVal2;
         }
       }
-      console.log("doin.");
-      console.log(args[0], args[1]);
-      console.log(a, b);
+      //console.log("doin.");
+      //console.log(args[0], args[1]);
+      //console.log(a, b);
       bot.stack.push(a == b ? 1 : 0);
       bot.i++;
     }
@@ -255,9 +257,9 @@ let instructions = {
           break getVal2;
         }
       }
-      console.log("doin.");
-      console.log(args[0], args[1]);
-      console.log(a, b);
+      //console.log("doin.");
+      //console.log(args[0], args[1]);
+      //console.log(a, b);
       bot.stack.push(a == b ? 0 : 1);
       bot.i++;
     }
@@ -334,9 +336,9 @@ let instructions = {
           break getVal2;
         }
       }
-      console.log("doin.");
-      console.log(args[0], args[1]);
-      console.log(a, b);
+      //console.log("doin.");
+      //console.log(args[0], args[1]);
+      //console.log(a, b);
       bot.stack.push(a < b ? 1 : 0);
       bot.i++;
     }
@@ -413,9 +415,9 @@ let instructions = {
           break getVal2;
         }
       }
-      console.log("doin.");
-      console.log(args[0], args[1]);
-      console.log(a, b);
+      //console.log("doin.");
+      //console.log(args[0], args[1]);
+      //console.log(a, b);
       bot.stack.push(a > b ? 1 : 0);
       bot.i++;
     }
@@ -443,10 +445,10 @@ let instructions = {
       bot.i++;
     }
   },
-  JUMP: {
-    cmd: "JUMP",
+  FORK: {
+    cmd: "FORK",
     argNums: [1],
-    args: [],
+    args: [{ match: [argTypes.MARK] }],
     mutator: ({ bot, args, world }) => {
       let m = args[0];
       //find line;
@@ -456,7 +458,36 @@ let instructions = {
         .find(cl => {
           return cl.args[0] == m;
         });
-      console.log("FOUND JUMP!", l);
+      //console.log("FOUND JUMP!", l);
+      if (!l) {
+        return "MARK not found.";
+      }
+      world.addBot({
+        code: bot.code,
+        x: bot.x,
+        room: bot.room,
+        stack: bot.stack.slice(),
+        i: l.line,
+        x: bot.x,
+        isTemp: true
+      });
+      bot.i++;
+    }
+  },
+  JUMP: {
+    cmd: "JUMP",
+    argNums: [1],
+    args: [{ match: [argTypes.MARK] }],
+    mutator: ({ bot, args, world }) => {
+      let m = args[0];
+      //find line;
+      let l = null;
+      l = bot.codeArray
+        .filter(cl => cl.type != "blank")
+        .find(cl => {
+          return cl.args[0] == m;
+        });
+      //console.log("FOUND JUMP!", l);
       if (!l) {
         return "MARK not found.";
       }
@@ -476,7 +507,7 @@ let instructions = {
         .find(cl => {
           return cl.cmd == "MARK" && cl.args[0] == m;
         });
-      console.log("FOUND JUMP!", l);
+      //console.log("FOUND JUMP!", l);
       if (!l) {
         return "MARK not found.";
       }
@@ -517,7 +548,7 @@ let instructions = {
         .find(cl => {
           return cl.args[0] == m;
         });
-      console.log("FOUND JUMP!", l);
+      //console.log("FOUND JUMP!", l);
       if (!l) {
         return "MARK not found.";
       }
@@ -541,7 +572,7 @@ let instructions = {
         .find(cl => {
           return cl.args[0] == m;
         });
-      console.log("FOUND JUMP!", l);
+      //console.log("FOUND JUMP!", l);
       if (!l) {
         return "MARK not found.";
       }

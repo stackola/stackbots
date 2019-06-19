@@ -29,7 +29,7 @@ class CPU {
     this.parseCode();
     this.validateCode();
   }
-  runTick() {
+  runTick(world) {
     if (this.isDead) {
       return;
     }
@@ -41,7 +41,7 @@ class CPU {
     }
     this.ticks++;
     let ins = instructions[cmd.cmd];
-    let error = ins.mutator({ bot: this, args: cmd.args });
+    let error = ins.mutator({ bot: this, args: cmd.args, world: world });
     if (error) {
       this.die(error);
     }
@@ -118,7 +118,6 @@ class CPU {
       lineNum++;
       l = l.split(";")[0].trim();
       l = applySugar(l);
-      console.log({ l });
       let c = l.split(" ");
 
       return {
@@ -172,6 +171,9 @@ function applySugar(text) {
   }
   if (text == "FLIP") {
     return "SWAP";
+  }
+  if (text.startsWith("REPL")) {
+    return text.replace("REPL","FORK");
   }
   return text;
 }

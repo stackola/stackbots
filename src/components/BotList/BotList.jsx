@@ -27,6 +27,14 @@ class BotList extends React.Component {
         </button>
         <button
           onClick={() => {
+            clearInterval(this.int);
+            this.props.run10();
+          }}
+        >
+          Run 10
+        </button>
+        <button
+          onClick={() => {
             this.doTick();
           }}
         >
